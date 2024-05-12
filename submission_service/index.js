@@ -2,12 +2,10 @@ require("dotenv").config();
 const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
-const Problem = require("./models/Problem");
+const Submission = require("./models/Submission");
 
 const app = express();
 const port = process.env.PORT || 3000;
-
-//setup vol 2
 
 // Middleware
 app.use(bodyParser.json());
@@ -23,61 +21,65 @@ mongoose
 
 // Start the server
 app.listen(port, () => {
-  console.log(`Problem Service running on port ${port}`);
+  console.log(`Submission Service running on port ${port}`);
 });
 
-app.get("/problems/:userId", async (req, res) => {
+app.get("/submission/:submissionId", async (req, res) => {
   try {
-    const problem = await Problem.findOne({ userId: req.params.userId });
-    if (!problem) return res.status(404).send("Problem not found");
-    res.send(problem);
+    const submission = await Submission.findOne({ submissionId: req.params.submissionId });
+    if (!submission) return res.status(404).send("Submission not found");
+    res.send(submission);
   } catch (error) {
     res.status(500).send(error.toString());
   }
 });
 
-app.put("/problems/:userId", async (req, res) => {
-  const { userId, state } = req.body;
+app.put("/submission/:submissionId", async (req, res) => {
+  const {submissionId} = req.params;
+  const { userId, solverId } = req.body;
   try {
-    let problem = await Problem.findOneAndUpdate(
+    let submission = await Submission.findOneAndUpdate(
+        {
+          submissionId,
+        },
       {
         userId,
       },
       {
-        state,
+        solverId,
       },
       {
         new: true,
         upsert: false,
       },
     );
-    await problem.save();
-    res.send(problem);
+    await submission.save();
+    res.send(submission);
   } catch (error) {
     res.status(500).send(error.toString());
   }
 });
 
 // Add or update credits
-app.post("/problems", async (req, res) => {
-  const { userId, submissionId, name } = req.body;
+app.post("/Submission", async (req, res) => {
+  const { userId, submissionId, solverId, name } = req.body;
   try {
-    let problem = new Problem({ userId, submissionId, name });
-    await problem.save();
-    res.send(problem);
+    let submission = new Submission({ userId, submissionId, solverId, name });
+    await submission.save();
+    res.send(submission);
   } catch (error) {
     res.status(500).send(error.toString());
   }
 });
 
-app.delete("/problems/:userId", async (req, res) => {
+app.delete("/submission/:submissionId", async (req, res) => {
   const { userId, submissionId } = req.body;
   try {
-    let problem = await Problem.findOneAndDelete({
+    let submission = await Submission.findOneAndDelete({
       userId,
       submissionId,
     });
-    res.status(200).json({ message: "Problem deleted successfully" });
+    res.status(200).json({ message: "Submission deleted successfully" });
   } catch (error) {
     res.status(500).send(error.toString());
   }

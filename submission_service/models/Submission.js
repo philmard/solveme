@@ -1,15 +1,6 @@
 const mongoose = require("mongoose");
 
 const submissionSchema = new mongoose.Schema({
-  createdOn: {
-    type: Date,
-    default: Date.now,
-  },
-  state: {
-    type: String,
-    enum: ["notReady", "ready", "executed", "failed"],
-    default: "notReady",
-  },
   userId: {
     type: Number,
     required: true,
@@ -17,10 +8,11 @@ const submissionSchema = new mongoose.Schema({
   submissionId: {
     type: Number,
     unique: true,
+    required: true,
   },
   solverId: {
     type: Number,
-    required: true,
+    unique: true,
   },
   name: {
     type: String,
@@ -30,8 +22,12 @@ const submissionSchema = new mongoose.Schema({
     type: Object,
     required: true,
   },
+  inputData: {
+    type: Object,
+    required: true,
+  },
 });
 
-const Problem = mongoose.model("Problem", submissionSchema);
+const Submission = mongoose.model("Submission", submissionSchema);
 
-module.exports = Problem;
+module.exports = Submission;
