@@ -12,7 +12,7 @@ const submissionSchema = new mongoose.Schema({
   },
   solverId: {
     type: Number,
-    unique: true,
+    required: true,
   },
   name: {
     type: String,

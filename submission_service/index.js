@@ -36,7 +36,7 @@ app.get("/submission/:submissionId", async (req, res) => {
 
 app.put("/submission/:submissionId", async (req, res) => {
   const {submissionId} = req.params;
-  const { userId, solverId } = req.body;
+  const { userId, solverId, name, inputData,metaData } = req.body;
   try {
     let submission = await Submission.findOneAndUpdate(
         {
@@ -44,9 +44,10 @@ app.put("/submission/:submissionId", async (req, res) => {
         },
       {
         userId,
-      },
-      {
         solverId,
+        name,
+        inputData,
+        metaData
       },
       {
         new: true,
@@ -61,10 +62,10 @@ app.put("/submission/:submissionId", async (req, res) => {
 });
 
 // Add or update credits
-app.post("/Submission", async (req, res) => {
-  const { userId, submissionId, solverId, name } = req.body;
+app.post("/submission", async (req, res) => {
+  const { userId, submissionId, solverId, name,inputData, metaData } = req.body;
   try {
-    let submission = new Submission({ userId, submissionId, solverId, name });
+    let submission = new Submission({ userId, submissionId, solverId, name, inputData,metaData });
     await submission.save();
     res.send(submission);
   } catch (error) {
@@ -73,10 +74,9 @@ app.post("/Submission", async (req, res) => {
 });
 
 app.delete("/submission/:submissionId", async (req, res) => {
-  const { userId, submissionId } = req.body;
+  const {submissionId } = req.params;
   try {
-    let submission = await Submission.findOneAndDelete({
-      userId,
+    await Submission.findOneAndDelete({
       submissionId,
     });
     res.status(200).json({ message: "Submission deleted successfully" });
