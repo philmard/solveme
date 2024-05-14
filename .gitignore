@@ -1,2 +1,4 @@
 /credits_service/node_modules/
 node_modules
+/solver_service/myenv/
+/solver_service/__pycache__
