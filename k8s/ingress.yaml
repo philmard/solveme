@@ -1,0 +1,53 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: microservices-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  rules:
+    - host: tiropitakia.spanakopitakia
+      http:
+        paths:
+          - path: /credits
+            pathType: Prefix
+            backend:
+              service:
+                name: credits-service
+                port:
+                  number: 80
+          - path: /problems
+            pathType: Prefix
+            backend:
+              service:
+                name: problems-service
+                port:
+                  number: 80
+          - path: /results
+            pathType: Prefix
+            backend:
+              service:
+                name: results-service
+                port:
+                  number: 80
+          - path: /solver
+            pathType: Prefix
+            backend:
+              service:
+                name: solver-service
+                port:
+                  number: 80
+          - path: /submission
+            pathType: Prefix
+            backend:
+              service:
+                name: submission-service
+                port:
+                  number: 80
+          - path: /user
+            pathType: Prefix
+            backend:
+              service:
+                name: user-service
+                port:
+                  number: 80

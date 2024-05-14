@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: problems-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: problems
+  template:
+    metadata:
+      labels:
+        app: problems
+    spec:
+      containers:
+        - name: problems
+          image: problems-service:latest
+          ports:
+            - containerPort: 3000

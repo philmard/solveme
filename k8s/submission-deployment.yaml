@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: submission-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: submission
+  template:
+    metadata:
+      labels:
+        app: submission
+    spec:
+      containers:
+        - name: submission
+          image: submission-service:latest
+          ports:
+            - containerPort: 3000

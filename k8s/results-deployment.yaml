@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: results-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: results
+  template:
+    metadata:
+      labels:
+        app: results
+    spec:
+      containers:
+        - name: results
+          image: results-service:latest
+          ports:
+            - containerPort: 3000
