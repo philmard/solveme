@@ -6,7 +6,7 @@ metadata:
     nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
   rules:
-    - host: tiropitakia.spanakopitakia
+    - host: tiropita
       http:
         paths:
           - path: /credits
@@ -15,39 +15,39 @@ spec:
               service:
                 name: credits-service
                 port:
-                  number: 80
+                  number: 3000
           - path: /problems
             pathType: Prefix
             backend:
               service:
                 name: problems-service
                 port:
-                  number: 80
+                  number: 3000
           - path: /results
             pathType: Prefix
             backend:
               service:
                 name: results-service
                 port:
-                  number: 80
+                  number: 3000
           - path: /solver
             pathType: Prefix
             backend:
               service:
                 name: solver-service
                 port:
-                  number: 80
+                  number: 3000
           - path: /submission
             pathType: Prefix
             backend:
               service:
                 name: submission-service
                 port:
-                  number: 80
+                  number: 3000
           - path: /user
             pathType: Prefix
             backend:
               service:
                 name: user-service
                 port:
-                  number: 80
+                  number: 3000

@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: problems-service
+spec:
+  selector:
+    matchLabels:
+      app: problems-service
+  template:
+    metadata:
+      labels:
+        app: problems-service
+    spec:
+      containers:
+        - name: problems-service
+          image: problems-service
+          imagePullPolicy: Never
+          resources:
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
+          ports:
+            - containerPort: 3000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: problems-service
+spec:
+  selector:
+    app: problems-service
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 3000
+  type: NodePort # Change the service type to NodePort

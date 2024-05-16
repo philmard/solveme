@@ -14,6 +14,24 @@ spec:
     spec:
       containers:
         - name: problems
-          image: problems-service:latest
+          image: docker.io/library/problems-service:latest
           ports:
             - containerPort: 3000
+
+---
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: problems-ingress
+spec:
+  rules:
+    - http:
+        paths:
+          - path: /problems
+            pathType: Prefix
+            backend:
+              service:
+                name: problems-service
+                port:
+                  number: 3000
