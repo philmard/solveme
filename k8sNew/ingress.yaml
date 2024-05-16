@@ -12,7 +12,7 @@ spec:
       http:
         paths:
           - pathType: Prefix
-            path: /user(/|$)(.*)
+            path: /user-service(/|$)(.*)
             backend:
               service:
                 name: user-service
