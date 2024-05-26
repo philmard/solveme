@@ -20,5 +20,6 @@ EXPOSE 5003
 # Define environment variable to ensure output is sent straight to terminal without buffering
 ENV PYTHONUNBUFFERED 1
 
-# Run app.py when the container launches using the virtual environment
-CMD ["venv/bin/python", "index.py"]
+
+# Use ENTRYPOINT to activate virtual environment and run the app
+ENTRYPOINT ["/bin/bash", "-c", "source venv/bin/activate && exec python index.py"]
