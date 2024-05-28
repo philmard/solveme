@@ -3,6 +3,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const Result = require("./models/Result");
+var amqp = require("amqplib/callback_api");
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -38,6 +39,52 @@ app.get("/results/:submissionId", async (req, res) => {
 });
 
 // "POST /create"
+
+amqp.connect("amqp://rabbitmq", function (error0, connection) {
+  if (error0) {
+    throw error0;
+  }
+  connection.createChannel(function (error1, channel) {
+    if (error1) {
+      throw error1;
+    }
+    var exchange = "result";
+
+    channel.assertExchange(exchange, "direct", {
+      durable: false,
+    });
+
+    channel.assertQueue(
+      "",
+      {
+        exclusive: true,
+      },
+      function (error2, q) {
+        if (error2) {
+          throw error2;
+        }
+        console.log(" [*] Waiting for logs. To exit press CTRL+C");
+
+        channel.bindQueue(q.queue, exchange, "solve");
+
+        channel.consume(
+          q.queue,
+          function (msg) {
+            console.log(
+              " [x] %s: '%s'",
+              msg.fields.routingKey,
+              msg.content.toString(),
+            );
+          },
+          {
+            noAck: true,
+          },
+        );
+      },
+    );
+  });
+});
+
 app.post("/results", async (req, res) => {
   const { userId, submissionId, name, solverId, result } = req.body;
   try {

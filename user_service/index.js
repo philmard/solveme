@@ -1,5 +1,34 @@
 require("dotenv").config();
 const express = require("express");
+var amqp = require("amqplib/callback_api");
+
+amqp.connect("amqp://rabbitmq", function (error0, connection) {
+  if (error0) {
+    throw error0;
+  }
+  connection.createChannel(function (error1, channel) {
+    if (error1) {
+      throw error1;
+    }
+    var queue = "hello";
+
+    channel.assertQueue(queue, {
+      durable: false,
+    });
+
+    console.log(" [*] Waiting for messages in %s. To exit press CTRL+C", queue);
+    channel.consume(
+      queue,
+      function (msg) {
+        console.log(" [x] Received %s", msg.content.toString());
+      },
+      {
+        noAck: true,
+      },
+    );
+  });
+});
+
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const User = require("./models/User");
@@ -22,10 +51,6 @@ mongoose
 // Start the server
 app.listen(port, () => {
   console.log(`Credit Service running on port ${port}`);
-});
-
-app.get("/", (req, res) => {
-  res.send("Hello, world!");
 });
 
 app.post("/users", async (req, res) => {

@@ -14,6 +14,9 @@ RUN . venv/bin/activate && pip install --upgrade pip && pip install -r requireme
 # Copy the current directory contents into the container at /app
 COPY . /app
 
+# Make port 5003 available to the world outside this container
+EXPOSE 5000
+
 # Define environment variable to ensure output is sent straight to terminal without buffering
 ENV PYTHONUNBUFFERED 1
 

@@ -1,0 +1,103 @@
+services:
+  rabbitmq:
+    image: "rabbitmq:3-management"
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    networks:
+      - mynetwork
+    healthcheck:
+      test: [ "CMD-SHELL", "rabbitmqctl status" ]
+      interval: 5s
+      timeout: 1s
+      retries: 5
+
+  user_service:
+    build:
+      context: ./user_service
+      dockerfile: Dockerfile
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+    ports:
+      - "3001:3000"
+    develop:
+      watch:
+        - action: rebuild
+          path: ./user_service
+          target: ./user_service:/app
+    networks:
+      - mynetwork
+
+  problem_service:
+    build:
+      context: ./problem_service
+      dockerfile: Dockerfile
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+    networks:
+      - mynetwork
+
+    ports:
+      - "3002:3000"
+    develop:
+      watch:
+        - action: rebuild
+          path: ./problem_service
+          target: ./problem_service:/app
+
+  results_service:
+    build:
+      context: ./results_service
+      dockerfile: Dockerfile
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+    ports:
+      - "3003:3000"
+    develop:
+      watch:
+        - action: rebuild
+          path: ./results_service
+          target: ./results_service:/app
+    networks:
+      - mynetwork
+
+  solver_manager_service:
+    build:
+      context: ./solver_manager_service
+      dockerfile: Dockerfile
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+    ports:
+      - "5002:5000"
+    develop:
+      watch:
+        - action: rebuild
+          path: ./solver_manager_service
+          target: ./solver_manager_service:/app
+    networks:
+      - mynetwork
+
+  solver_service:
+    build:
+      context: ./solver_service
+      dockerfile: Dockerfile
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+    ports:
+      - "5001:5000"
+    develop:
+      watch:
+        - action: rebuild
+          path: ./solver_service
+          target: ./solver_service:/app
+    networks:
+      - mynetwork
+
+networks:
+  mynetwork:
+    driver: bridge
