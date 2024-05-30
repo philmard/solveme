@@ -63,8 +63,7 @@ app.post("/users", async (req, res) => {
     try {
         // Check if a user with the same username already exists
         const existingUser = await User.findOne({username});
-        if (existingUser) {
-            console.log("Username already exists");
+        if (existingUser) { // username already exists
             return res.status(409).json({message: 'Username already exists.'});
         }
 
@@ -73,7 +72,6 @@ app.post("/users", async (req, res) => {
         await user.save();
         res.status(201).json(user);
     } catch (error) {
-        console.error(error);
         res.status(500).json({message: 'An error occurred while creating the user.'});
     }
 });
@@ -91,6 +89,7 @@ app.get("/users/:username", async (req, res) => {
 // add credits
 app.put("/users/:username/add-credit", async (req, res) => {
     const {username} = req.params;
+    const {credits} = req.body;
 
     try {
         // Find the user by username
@@ -101,8 +100,8 @@ app.put("/users/:username/add-credit", async (req, res) => {
             return res.status(404).json({message: "User not found"});
         }
 
-        // Increment the credits by 1
-        user.credits += 1;
+        // Increment the credits by the specified number
+        user.credits += credits;
 
         // Save the updated user
         await user.save();
