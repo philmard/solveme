@@ -15,7 +15,8 @@ def upload_file():
     num_vehicles = request.form.get('num_vehicles')
     depot = request.form.get('depot')
     max_distance = request.form.get('max_distance')
-
+    
+    metadata=json.loads(request.form.get('metadata'))
     if not py_file:
         return jsonify({"error": "No Python script part in the request"}), 400
 
@@ -43,19 +44,24 @@ def upload_file():
     try:
         with tempfile.NamedTemporaryFile(delete=False, suffix=".py") as tmp_py:
             py_file.save(tmp_py.name)
-            py_path = tmp_py.name
+            with open(tmp_py.name, 'rb') as py_f:
+                py_base64 = base64.b64encode(py_f.read()).decode('utf-8')
 
         json_path = None
         if json_content:
             with tempfile.NamedTemporaryFile(delete=False, suffix=".json") as tmp_json:
                 tmp_json.write(json_content.encode('utf-8'))
                 json_path = tmp_json.name
+            with open(json_path, 'rb') as json_f:
+                json_base64 = base64.b64encode(json_f.read()).decode('utf-8')
+
         task = {
-            'py_file': py_path,
-            'json_file': json_path,
+            'py_file': py_base64,
+            'json_file': json_base64,
             'num_vehicles': num_vehicles,
             'depot': depot,
-            'max_distance': max_distance
+            'max_distance': max_distance,
+            'metadata':metadata
         }
         message = json.dumps(task)
         # Prepare command to run the script
@@ -72,9 +78,9 @@ def upload_file():
 
 
         # Clean up temporary files
-        os.remove(py_path)
-        if json_path:
-            os.remove(json_path)
+        # os.remove(py_path)
+        # if json_path:
+        #     os.remove(json_path)
 
         return jsonify({"output": "added to queue", "error": "error"})
     except Exception as e:

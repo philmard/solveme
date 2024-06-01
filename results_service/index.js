@@ -73,17 +73,20 @@ amqp.connect("amqp://rabbitmq", function (error0, connection) {
             console.log(
               " [x] %s: '%s'",
               msg.fields.routingKey,
-              msg.content.toString(),
+              msg.content.toString()
             );
           },
           {
             noAck: true,
-          },
+          }
         );
-      },
+      }
     );
   });
 });
+
+//             const { userId, submissionId, name, solverId, } = JSON.parse(msg.content.toString)['metadata'];
+//             const result = {"result":JSON.parse(msg.content.toString)['result']};
 
 app.post("/results", async (req, res) => {
   const { userId, submissionId, name, solverId, result } = req.body;
