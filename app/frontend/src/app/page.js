@@ -3,7 +3,8 @@
 
 import axios from "axios";
 import React, {useState} from "react";
-import {Container, Button, Alert, Row, Col, Form} from "react-bootstrap";
+import {Container, Button, Alert, Row, Col, Form, Modal} from "react-bootstrap";
+import { useRouter } from "next/navigation";
 
 const checkLogin = async (username, password, setMessage) => {
     //const username = "filippos";
@@ -109,6 +110,7 @@ const addCredits = async (num_credits, username, setMessage) => {
 }
 
 export default function Landing() {
+    const router = useRouter();
     const [loginUsername, setLoginUsername] = useState('');
     const [loginPassword, setLoginPassword] = useState('');
     const [signupUsername, setSignupUsername] = useState('');
@@ -171,7 +173,7 @@ export default function Landing() {
                         <Button
                             variant="light"
                             className="w-100 mb-2 mt-3"
-                            onClick={() => signup(signupUsername, signupPassword, setMessage)}
+                            onClick={() => router.push('/sign-up')}//signup(signupUsername, signupPassword, setMessage)}
                         >
                             signup
                         </Button>
