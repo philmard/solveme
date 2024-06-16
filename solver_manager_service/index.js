@@ -27,9 +27,9 @@ mongoose
 
 app.get("/problems/:username", async (req, res) => {
   try {
-    const problem = await Problem.findOne({ username: req.params.username });
-    if (!problem) return res.status(404).send("Problem not found");
-    res.send(problem);
+    const problems = await Problem.find({ username: req.params.username });
+    if (!problems.length) return res.status(204).send("No problems found");
+    res.send(problems);
   } catch (error) {
     res.status(500).send(error.toString());
   }
@@ -77,7 +77,9 @@ app.post("/solve", async (req, res) => {
   const maxDistance = req.body.max_distance;
 
   const metadata = JSON.parse(req.body.metadata || "{}");
+  console.log(metadata);
   const { username, name } = metadata;
+
   let problem = new Problem({ username, submissionId, name });
   await problem.save();
   // res.send(problem);
@@ -127,7 +129,6 @@ app.post("/solve", async (req, res) => {
       fs.writeFileSync(jsonTempPath, jsonContent);
       jsonBase64 = base64.encode(fs.readFileSync(jsonTempPath, "utf8"));
     }
-
     const task = {
       py_file: pyBase64,
       json_file: jsonBase64,
@@ -149,6 +150,7 @@ app.post("/solve", async (req, res) => {
         const exchange = "solver";
         const key = "solve";
         const message = JSON.stringify(task);
+        console.log(message);
 
         channel.assertExchange(exchange, "direct", {
           durable: false,

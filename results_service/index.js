@@ -95,7 +95,7 @@ amqp.connect("amqp://rabbitmq", function (error0, connection) {
 app.get("/results/:submissionId", async (req, res) => {
   try {
     const result = await Result.findOne({
-      submissionId: req.params.submissionId,
+      submissionId: parseInt(req.params.submissionId),
     });
     if (!result) return res.status(404).send("Result not found");
     res.send(result);
