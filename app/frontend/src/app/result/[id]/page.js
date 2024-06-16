@@ -29,13 +29,16 @@ const ResultPage = ({params}) => {
             resultText = 'Unknown Result';
             break;
     }
-    console.log(results.data)
+    //console.log(results.data)
     return (
         <Container className="my-5">
             <Col md={4}>
                 <h2>{id}</h2>
             </Col>
             <Col md={4}>
+                <h2>....................................</h2>
+                <h2>....................................</h2>
+                <h2>....................................</h2>
                 <h2>....................................</h2>
                 <h2>....................................</h2>
             </Col>
