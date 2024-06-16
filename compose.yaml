@@ -7,7 +7,7 @@ services:
     networks:
       - mynetwork
     healthcheck:
-      test: ["CMD-SHELL", "rabbitmqctl status"]
+      test: [ "CMD-SHELL", "rabbitmqctl status" ]
       interval: 5s
       timeout: 3s
       retries: 5
@@ -28,24 +28,6 @@ services:
           target: ./user_service:/app
     networks:
       - mynetwork
-
-  problem_service:
-    build:
-      context: ./problem_service
-      dockerfile: Dockerfile
-    depends_on:
-      rabbitmq:
-        condition: service_healthy
-    networks:
-      - mynetwork
-
-    ports:
-      - "3002:3000"
-    develop:
-      watch:
-        - action: rebuild
-          path: ./problem_service
-          target: ./problem_service:/app
 
   results_service:
     build:
@@ -72,7 +54,7 @@ services:
       rabbitmq:
         condition: service_healthy
     ports:
-      - "5002:5000"
+      - "5002:3000"
     develop:
       watch:
         - action: rebuild

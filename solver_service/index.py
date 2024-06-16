@@ -72,7 +72,7 @@ def callback(ch, method, properties, body):
 
 
     message = json.dumps({
-    "result": result.stdout,
+    "results": result.stdout,
     "metadata": metadata
     })
     connection = pika.BlockingConnection(pika.ConnectionParameters(host='rabbitmq'))

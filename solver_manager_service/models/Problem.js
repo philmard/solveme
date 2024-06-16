@@ -11,11 +11,11 @@ const problemSchema = new mongoose.Schema({
   },
   state: {
     type: String,
-    enum: ["notReady", "ready", "executed", "failed"],
-    default: "notReady",
+    enum: ["pending", "solved", "failed"],
+    default: "pending",
   },
-  userId: {
-    type: Number,
+  username: {
+    type: String,
     required: true,
   },
   submissionId: {

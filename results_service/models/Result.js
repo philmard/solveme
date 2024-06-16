@@ -9,11 +9,7 @@ const resultSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
-  userId: {
-    type: Number,
-    required: true,
-  },
-  solverId: {
+  username: {
     type: String,
     required: true,
   },
@@ -21,7 +17,7 @@ const resultSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
-  result: {
+  results: {
     type: Object,
     required: true,
   },

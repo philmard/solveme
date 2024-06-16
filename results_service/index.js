@@ -4,12 +4,15 @@ const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const Result = require("./models/Result");
 var amqp = require("amqplib/callback_api");
+const axios = require("axios");
+const cors = require("cors");
 
 const app = express();
 const port = process.env.PORT || 3000;
 
 // Middleware
 app.use(bodyParser.json());
+app.use(cors());
 
 // MongoDB connection
 mongoose
@@ -25,21 +28,6 @@ app.listen(port, () => {
   console.log(`Result Service running on port ${port}`);
 });
 
-// submissionId instead of userId here ??
-app.get("/results/:submissionId", async (req, res) => {
-  try {
-    const result = await Result.findOne({
-      submissionId: req.params.submissionId,
-    });
-    if (!result) return res.status(404).send("Result not found");
-    res.send(result);
-  } catch (error) {
-    res.status(500).send(error.toString());
-  }
-});
-
-// "POST /create"
-
 amqp.connect("amqp://rabbitmq", function (error0, connection) {
   if (error0) {
     throw error0;
@@ -49,7 +37,6 @@ amqp.connect("amqp://rabbitmq", function (error0, connection) {
       throw error1;
     }
     var exchange = "result";
-
     channel.assertExchange(exchange, "direct", {
       durable: false,
     });
@@ -69,29 +56,64 @@ amqp.connect("amqp://rabbitmq", function (error0, connection) {
 
         channel.consume(
           q.queue,
-          function (msg) {
-            console.log(
-              " [x] %s: '%s'",
-              msg.fields.routingKey,
-              msg.content.toString()
-            );
+          async ({ content }) => {
+            try {
+              const { metadata, results } = JSON.parse(content.toString());
+              const { username, submissionId, name } = metadata;
+
+              await new Result({
+                username,
+                submissionId,
+                name,
+                results,
+              }).save();
+              await axios.put(`http://solver_manager_service:3000/problems`, {
+                username,
+                submissionId,
+                state: "solved",
+              });
+            } catch (error) {
+              const { metadata } = JSON.parse(content.toString());
+              const { username, submissionId } = metadata;
+              await axios.put(`http://solver_manager_service:3000/problems`, {
+                username,
+                submissionId,
+                state: "failed",
+              });
+              console.log(error);
+            }
           },
           {
             noAck: true,
-          }
+          },
         );
-      }
+      },
     );
   });
 });
 
-//             const { userId, submissionId, name, solverId, } = JSON.parse(msg.content.toString)['metadata'];
-//             const result = {"result":JSON.parse(msg.content.toString)['result']};
+app.get("/results/:submissionId", async (req, res) => {
+  try {
+    const result = await Result.findOne({
+      submissionId: req.params.submissionId,
+    });
+    if (!result) return res.status(404).send("Result not found");
+    res.send(result);
+  } catch (error) {
+    res.status(500).send(error.toString());
+  }
+});
 
 app.post("/results", async (req, res) => {
-  const { userId, submissionId, name, solverId, result } = req.body;
+  const { username, submissionId, name, solverId, result } = req.body;
   try {
-    let result1 = new Result({ userId, submissionId, name, solverId, result });
+    let result1 = new Result({
+      username,
+      submissionId,
+      name,
+      solverId,
+      result,
+    });
     await result1.save();
     res.send(result1);
   } catch (error) {
@@ -99,7 +121,6 @@ app.post("/results", async (req, res) => {
   }
 });
 
-// submissionId instead of userId here ??
 app.delete("/results/:submissionId", async (req, res) => {
   const { submissionId } = req.body;
   try {
