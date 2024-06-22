@@ -7,7 +7,7 @@ services:
     networks:
       - mynetwork
     healthcheck:
-      test: [ "CMD-SHELL", "rabbitmqctl status" ]
+      test: ["CMD-SHELL", "rabbitmqctl status"]
       interval: 5s
       timeout: 3s
       retries: 5

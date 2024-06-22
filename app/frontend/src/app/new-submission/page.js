@@ -158,29 +158,52 @@ const NewSubmissionPage = () => {
           <Form.Group controlId="numVehicles" className="mt-2">
             <Form.Label>num_vehicles</Form.Label>
             <Form.Control
-              type="number"
-              placeholder="enter num_vehicles"
+              as="select"
               value={numVehicles}
               onChange={(e) => setNumVehicles(e.target.value)}
-            />
+              defaultValue=""
+            >
+              <option value="" disabled hidden>
+                Select number of vehicles
+              </option>
+              <option value="1">1</option>
+              <option value="3">3</option>
+              <option value="10">10</option>
+            </Form.Control>
           </Form.Group>
+
           <Form.Group controlId="depot" className="mt-2">
             <Form.Label>depot</Form.Label>
             <Form.Control
-              type="number"
-              placeholder="enter depot"
+              as="select"
               value={depot}
               onChange={(e) => setDepot(e.target.value)}
-            />
+              defaultValue=""
+            >
+              <option value="" disabled hidden>
+                Select depot
+              </option>
+              <option value="1">1</option>
+              <option value="10">10</option>
+              <option value="100">100</option>
+            </Form.Control>
           </Form.Group>
+
           <Form.Group controlId="maxDistance" className="mt-2">
             <Form.Label>max_distance</Form.Label>
             <Form.Control
-              type="number"
-              placeholder="enter max_distance"
+              as="select"
               value={maxDistance}
               onChange={(e) => setMaxDistance(e.target.value)}
-            />
+              defaultValue=""
+            >
+              <option value="" disabled hidden>
+                Select max distance
+              </option>
+              <option value="100000">100 km</option>
+              <option value="200000">200 km</option>
+              <option value="500000">500 km</option>
+            </Form.Control>
           </Form.Group>
         </Col>
       </Row>
