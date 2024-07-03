@@ -49,7 +49,7 @@ app.put("/problems", async (req, res) => {
       {
         new: true,
         upsert: false,
-      },
+      }
     );
     res.send(problem);
   } catch (error) {
@@ -58,18 +58,6 @@ app.put("/problems", async (req, res) => {
 });
 
 app.post("/solve", async (req, res) => {
-  const submissionId = await Problem.findOne(
-    {},
-    {},
-    { sort: { createdOn: -1 } },
-  )
-    .then((problem) => {
-      return problem ? problem.submissionId + 1 : 1;
-    })
-    .catch((err) => {
-      console.error(err);
-      return 1; // Default to 1 in case of error
-    });
   const pyFile = req.files ? req.files.py_file : null;
   const jsonFile = req.files ? req.files.json_file : null;
   const numVehicles = req.body.num_vehicles;
@@ -79,8 +67,8 @@ app.post("/solve", async (req, res) => {
   const metadata = JSON.parse(req.body.metadata || "{}");
   const { username, name } = metadata;
 
-  let problem = new Problem({ username, submissionId, name });
-  await problem.save();
+  let problem = new Problem({ username, name });
+  const submissionId = await problem.save().then((doc) => doc.submissionId);
   // res.send(problem);
   if (
     !pyFile ||
@@ -175,7 +163,10 @@ app.post("/solve", async (req, res) => {
         channel.assertExchange(exchange, "direct", {
           durable: false,
         });
-        channel.publish(exchange, key, Buffer.from(message));
+        channel.publish(exchange, key, Buffer.from(message), {
+          length: 500,
+          "x-max-length": 500,
+        });
 
         setTimeout(() => {
           connection.close();
