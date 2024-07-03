@@ -77,12 +77,32 @@ app.post("/solve", async (req, res) => {
   const maxDistance = req.body.max_distance;
 
   const metadata = JSON.parse(req.body.metadata || "{}");
-  console.log(metadata);
   const { username, name } = metadata;
 
   let problem = new Problem({ username, submissionId, name });
   await problem.save();
   // res.send(problem);
+  if (
+    !pyFile ||
+    !pyFile.name.endsWith(".py") ||
+    !numVehicles ||
+    !depot ||
+    !maxDistance
+  ) {
+    await Problem.findOneAndUpdate(
+      {
+        username,
+        submissionId,
+      },
+      {
+        state: "failed",
+      },
+      {
+        new: true,
+        upsert: false,
+      },
+    );
+  }
   if (!pyFile) {
     return res
       .status(400)

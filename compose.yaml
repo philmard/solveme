@@ -7,10 +7,25 @@ services:
     networks:
       - mynetwork
     healthcheck:
-      test: ["CMD-SHELL", "rabbitmqctl status"]
-      interval: 5s
-      timeout: 3s
+      test: [ "CMD-SHELL", "rabbitmqctl status" ]
+      interval: 8s
+      timeout: 5s
       retries: 5
+
+  web:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - '3000:3000'
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    command: npm run dev
+    depends_on:
+      - user_service
+    networks:
+      - mynetwork
 
   user_service:
     build:
