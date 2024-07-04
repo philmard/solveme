@@ -105,3 +105,15 @@ a {
     color-scheme: dark;
   }
 }
+.navbar {
+  width: 100%;
+  padding: 0;
+}
+
+.bg-emerald-900 {
+  background-color: #065f46;
+}
+
+.text-white {
+  color: #ffffff;
+}

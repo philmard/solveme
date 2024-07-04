@@ -1,4 +1,3 @@
-// components/Header.js
 import React, { useEffect } from "react";
 import { Navbar, Container, Row, Col, Button } from "react-bootstrap";
 import { useAuth, useAuthDispatch } from "@/app/AppContext";
@@ -8,38 +7,39 @@ const Header = () => {
   const { username, credits } = useAuth();
   const dispatch = useAuthDispatch();
   const router = useRouter();
+
   useEffect(() => {
-    username === "" && router.replace("/");
-  }, [username]);
+    if (!username) {
+      router.replace("/");
+    }
+  }, [username, router]);
 
   return (
-    <Navbar bg="light" className="w-full h-20">
-      <Container className="position-absolute top-0 w-full bg-emerald-900 rounded-br-xl">
-        <Col className="w-full">
-          <Row className="w-full bg-emerald-900">
+    <Navbar bg="emerald" className="w-full h-20">
+      <Container fluid className="bg-emerald-900 ">
+        <Row className="w-full bg-emerald-900">
+          <Col className="flex justify-between items-center">
             <Button
               onClick={() => {
-                dispatch({
-                  type: "logout",
-                });
+                dispatch({ type: "logout" });
                 router.replace("/");
               }}
               className="text-center w-20 m-1 bg-white text-black"
             >
-              <div className="p-1">logout</div>
+              <div className="p-1">Logout</div>
             </Button>
             {username && (
               <>
-                <Col className="text-center bg-emerald-900">
-                  <div className="p-3 text-white">username: {username}</div>
-                </Col>
-                <Col className="text-center bg-emerald-900">
-                  <div className="p-3 text-white">credits: {credits}</div>
-                </Col>
+                <div className="text-center text-white p-3 font-bold">
+                  Username: {username}
+                </div>
+                <div className="text-center text-white p-3 font-bold">
+                  Credits: {credits}
+                </div>
               </>
             )}
-          </Row>
-        </Col>
+          </Col>
+        </Row>
       </Container>
     </Navbar>
   );
