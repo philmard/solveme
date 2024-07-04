@@ -9,6 +9,10 @@
 | 03120844  | ΛΑΣΔΑΣ          | ΧΡΗΣΤΟΣ         |
 | 03120176  | ΚΟΝΤΟΣ          | ΓΕΩΡΓΙΟΣ         |
 
+## YouTrack
+
+[**https://saas2024-49.youtrack.cloud/agiles/160-2/current**](https://saas2024-49.youtrack.cloud/agiles/160-2/current)
+
 ### Development Environment Setup
 1. Navigate to the folder you want to clone the Source Code into.
 2. Run `git clone https://github.com/ntua/saas2024-49.git`
