@@ -1,6 +1,6 @@
 # MICROSERVICE
 
-## results_service
+## frontend
 
 **The frontend directory contains all the source code and configuration for the frontend of our application. This includes the React components, pages, and styles that make up the user interface.**
 
