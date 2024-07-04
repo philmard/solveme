@@ -1,11 +1,17 @@
 # NTUA ECE SAAS 2024 PROJECT
   
-## TEAM (XX)
+## TEAM (49)
+
+| ID        | Last Name        | First Name      |
+|-----------|------------------|-----------------|
+| 03120034  | ΜΑΡΝΤΙΡΟΣΙΑΝ   | ΦΙΛΙΠΠΟΣ       |
+| 03120166  | ΑΝΑΓΝΟΥ          | ΛΕΩΝΙΔΑΣ ΦΙΛΙΠΠΟΣ |
+| 03120844  | ΛΑΣΔΑΣ          | ΧΡΗΣΤΟΣ         |
+| 03120176  | ΚΟΝΤΟΣ          | ΓΕΩΡΓΙΟΣ         |
   
-  
-Περιγραφή - οδηγίες
-  
-Περιέχονται φάκελοι για 15 microservices. Ο αριθμός είναι εντελώς ενδεικτικός. Δημιουργήστε ακριβώς όσα απαιτούνται από τη λύση σας.
+(Demonstrative Image of SolveMe Application)
+
+![image](https://github.com/ntua/saas2024-49/assets/147999065/700472b3-905a-4af5-9693-7df3ac9bae17)
 
 ### Development Environment Setup
 1. Navigate to the folder you want to clone the Source Code into.
