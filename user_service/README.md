@@ -1,6 +1,6 @@
 # MICROSERVICE
 
-## solver_manager_service
+## user_service
 
 **The user_service is responsible for managing user-related functionalities such as user authentication and credit management.**
 
