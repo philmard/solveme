@@ -1,23 +1,30 @@
+// Load environment variables from .env file
 require("dotenv").config();
+
 const express = require("express");
 const cors = require("cors"); // Import the cors module
 var amqp = require("amqplib/callback_api");
 
+// Connect to RabbitMQ
 amqp.connect("amqp://rabbitmq", function (error0, connection) {
     if (error0) {
         throw error0;
     }
+    // Create a channel
     connection.createChannel(function (error1, channel) {
         if (error1) {
             throw error1;
         }
         var queue = "hello";
 
+        // Assert a queue into existence
         channel.assertQueue(queue, {
             durable: false,
         });
 
         console.log(" [*] Waiting for messages in %s. To exit press CTRL+C", queue);
+
+        // Consume messages from the queue
         channel.consume(
             queue,
             function (msg) {
@@ -38,7 +45,7 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 // Middleware
-app.use(bodyParser.json());
+app.use(bodyParser.json()); // Parse JSON request bodies
 
 // Enable CORS for all origins
 app.use(cors());
@@ -57,6 +64,7 @@ app.listen(port, () => {
     console.log(`User Service running on port ${port}`);
 });
 
+// Route to create a new user
 app.post("/users", async (req, res) => {
     const {username, password} = req.body;
 
@@ -76,6 +84,7 @@ app.post("/users", async (req, res) => {
     }
 });
 
+// Route to get user details by username
 app.get("/users/:username", async (req, res) => {
     try {
         const user = await User.findOne({username: req.params.username});
@@ -86,7 +95,7 @@ app.get("/users/:username", async (req, res) => {
     }
 });
 
-// add credits
+// Route to add credits to a user
 app.put("/users/:username/add-credit", async (req, res) => {
     const {username} = req.params;
     const {credits} = req.body;
@@ -114,7 +123,7 @@ app.put("/users/:username/add-credit", async (req, res) => {
     }
 });
 
-// remove credits
+// Route to remove credits from a user
 app.put("/users/:username/remove-credit", async (req, res) => {
     const {username} = req.params;
 
@@ -127,7 +136,7 @@ app.put("/users/:username/remove-credit", async (req, res) => {
             return res.status(404).json({message: "User not found"});
         }
 
-        // decrement the credits by 1
+        // Decrement the credits by 1
         user.credits -= 1;
 
         // Save the updated user

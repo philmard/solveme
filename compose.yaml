@@ -2,44 +2,44 @@ services:
   rabbitmq:
     image: "rabbitmq:3-management"
     ports:
-      - "5672:5672"
-      - "15672:15672"
+      - "5672:5672"  # RabbitMQ server port
+      - "15672:15672"  # RabbitMQ management UI port
     networks:
       - mynetwork
     healthcheck:
       test: [ "CMD-SHELL", "rabbitmqctl status" ]
       interval: 8s
       timeout: 5s
-      retries: 5
+      retries: 5  # Health check configuration for RabbitMQ
 
   web:
     build:
       context: ./frontend
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile  # Dockerfile location for the web service
     ports:
-      - '3000:3000'
+      - '3000:3000'  # Port mapping for the web service
     volumes:
-      - ./frontend:/app
-      - /app/node_modules
-    command: npm run dev
+      - ./frontend:/app  # Mount local frontend directory to /app in the container
+      - /app/node_modules  # Anonymous volume to persist node_modules
+    command: npm run dev  # Command to run the web service in development mode
     depends_on:
-      - user_service
+      - user_service  # Ensure user_service starts before web
     networks:
       - mynetwork
 
   user_service:
     build:
       context: ./user_service
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile  # Dockerfile location for the user service
     depends_on:
       rabbitmq:
-        condition: service_healthy
+        condition: service_healthy  # Ensure rabbitmq is healthy before starting
     ports:
-      - "3001:3000"
+      - "3001:3000"  # Port mapping for the user service
     develop:
       watch:
         - action: rebuild
-          path: ./user_service
+          path: ./user_service  # Watch for changes in user_service directory
           target: ./user_service:/app
     networks:
       - mynetwork
@@ -47,16 +47,16 @@ services:
   results_service:
     build:
       context: ./results_service
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile  # Dockerfile location for the results service
     depends_on:
       rabbitmq:
-        condition: service_healthy
+        condition: service_healthy  # Ensure rabbitmq is healthy before starting
     ports:
-      - "3003:3000"
+      - "3003:3000"  # Port mapping for the results service
     develop:
       watch:
         - action: rebuild
-          path: ./results_service
+          path: ./results_service  # Watch for changes in results_service directory
           target: ./results_service:/app
     networks:
       - mynetwork
@@ -64,16 +64,16 @@ services:
   solver_manager_service:
     build:
       context: ./solver_manager_service
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile  # Dockerfile location for the solver manager service
     depends_on:
       rabbitmq:
-        condition: service_healthy
+        condition: service_healthy  # Ensure rabbitmq is healthy before starting
     ports:
-      - "5002:3000"
+      - "5002:3000"  # Port mapping for the solver manager service
     develop:
       watch:
         - action: rebuild
-          path: ./solver_manager_service
+          path: ./solver_manager_service  # Watch for changes in solver_manager_service directory
           target: ./solver_manager_service:/app
     networks:
       - mynetwork
@@ -81,20 +81,20 @@ services:
   solver_service:
     build:
       context: ./solver_service
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile  # Dockerfile location for the solver service
     depends_on:
       rabbitmq:
-        condition: service_healthy
+        condition: service_healthy  # Ensure rabbitmq is healthy before starting
     ports:
-      - "5001:5000"
+      - "5001:5000"  # Port mapping for the solver service
     develop:
       watch:
         - action: rebuild
-          path: ./solver_service
+          path: ./solver_service  # Watch for changes in solver_service directory
           target: ./solver_service:/app
     networks:
       - mynetwork
 
 networks:
   mynetwork:
-    driver: bridge
+    driver: bridge  # Define the bridge network
