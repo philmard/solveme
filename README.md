@@ -8,10 +8,6 @@
 | 03120166  | ΑΝΑΓΝΟΥ          | ΛΕΩΝΙΔΑΣ ΦΙΛΙΠΠΟΣ |
 | 03120844  | ΛΑΣΔΑΣ          | ΧΡΗΣΤΟΣ         |
 | 03120176  | ΚΟΝΤΟΣ          | ΓΕΩΡΓΙΟΣ         |
-  
-(Demonstrative Image of SolveMe Application)
-
-![image](https://github.com/ntua/saas2024-49/assets/147999065/700472b3-905a-4af5-9693-7df3ac9bae17)
 
 ### Development Environment Setup
 1. Navigate to the folder you want to clone the Source Code into.
@@ -32,3 +28,7 @@
 
 This is how it should look like:
 ![image](https://github.com/ntua/saas2024-49/assets/147999065/09cf6ca8-a7f7-4389-b919-dd47298b35d3)
+
+![image](https://github.com/ntua/saas2024-49/assets/147999065/b8690d9d-3753-4701-ba66-0fa2d4e94b01)
+
+![image](https://github.com/ntua/saas2024-49/assets/147999065/700472b3-905a-4af5-9693-7df3ac9bae17)
