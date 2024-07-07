@@ -2,11 +2,12 @@ services:
   rabbitmq:
     image: "rabbitmq:3-management"
     ports:
+      - "5672:5672"
       - "15672:15672" # RabbitMQ management UI port
     networks:
       - mynetwork
     healthcheck:
-      test: ["CMD-SHELL", "rabbitmqctl status"]
+      test: [ "CMD-SHELL", "rabbitmqctl status" ]
       interval: 8s
       timeout: 5s
       retries: 5 # Health check configuration for RabbitMQ

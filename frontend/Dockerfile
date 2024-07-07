@@ -8,14 +8,16 @@ WORKDIR /app
 COPY package.json package-lock.json ./
 
 # Install dependencies
-RUN npm install
 
 COPY . .
+
+RUN npm install
+
+
 
 RUN npx tailwindcss -i ./src/global.css -o ./src/output.css
 
 # Copy the rest of the application code to the working directory
-COPY . .
 
 
 # Expose the port the app runs on
