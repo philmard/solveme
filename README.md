@@ -15,7 +15,10 @@
 
 (6 weekly sprints in total)
 
-### Development Environment Setup
+## General Overview
+This is the general README for the project. Each microservice has its own documentation, outlining its purpose and usage, available in the corresponding README file of that microservice.
+
+## Development Environment Setup
 1. Navigate to the folder you want to clone the Source Code into.
 2. Run `git clone https://github.com/philmard/solveme.git`[^1]
 3. a) Download nodejs from this website: https://nodejs.org/en/download
