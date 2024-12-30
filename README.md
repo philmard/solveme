@@ -13,15 +13,17 @@
 
 [**https://saas2024-49.youtrack.cloud/agiles/160-2/current**](https://saas2024-49.youtrack.cloud/agiles/160-2/current)
 
+(6 weekly sprints in total)
+
 ### Development Environment Setup
 1. Navigate to the folder you want to clone the Source Code into.
-2. Run `git clone https://github.com/ntua/saas2024-49.git`
+2. Run `git clone https://github.com/philmard/solveme.git`[^1]
 3. a) Download nodejs from this website: https://nodejs.org/en/download
 
    b) Download Python from this website: https://www.python.org/downloads/
 
    c) Download Docker Desktop from this website: https://www.docker.com/products/docker-desktop/
-5. Run `cd softeng-2023`
+5. Run `cd solveme`
 6. Run `npm install` (in order to install necessary packages)
 7. Run `npm install next react react-dom` (in order to install Next.js)
 8. Run `cd frontend` and then `npm install` (in order to install frontend specific packages)
@@ -30,9 +32,13 @@
 11. Navigate to http://localhost:3000/
 12. You can now browse our application :)
 
+[^1]: The code was originally hosted at "https://github.com/ntua/saas2024-49," a private repository belonging to the National Technical University of Athens. Our instructor verbally granted us permission to clone the repository and upload it to our personal accounts.
+
 This is how it should look like:
 ![image](https://github.com/ntua/saas2024-49/assets/147999065/09cf6ca8-a7f7-4389-b919-dd47298b35d3)
 
 ![image](https://github.com/ntua/saas2024-49/assets/147999065/b8690d9d-3753-4701-ba66-0fa2d4e94b01)
 
 ![image](https://github.com/ntua/saas2024-49/assets/147999065/700472b3-905a-4af5-9693-7df3ac9bae17)
+
+
