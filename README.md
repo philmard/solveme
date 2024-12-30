@@ -35,10 +35,13 @@
 [^1]: The code was originally hosted at "https://github.com/ntua/saas2024-49," a private repository belonging to the National Technical University of Athens. Our instructor verbally granted us permission to clone the repository and upload it to our personal accounts.
 
 This is how it should look like:
-![image](https://github.com/ntua/saas2024-49/assets/147999065/09cf6ca8-a7f7-4389-b919-dd47298b35d3)
+<img width="1000" alt="solveme1" src="https://github.com/user-attachments/assets/736a585e-833a-4f00-a46e-301d40db70e1" />
 
-![image](https://github.com/ntua/saas2024-49/assets/147999065/b8690d9d-3753-4701-ba66-0fa2d4e94b01)
+<img width="1000" alt="solveme2" src="https://github.com/user-attachments/assets/d42e653b-343d-488d-8003-af38901d581f" />
 
-![image](https://github.com/ntua/saas2024-49/assets/147999065/700472b3-905a-4af5-9693-7df3ac9bae17)
+<img width="1000" alt="solveme3" src="https://github.com/user-attachments/assets/1b0549ab-5839-4165-8cc2-8c243c503881" />
+
+
+
 
 
