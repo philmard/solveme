@@ -20,7 +20,7 @@ This is the general README for the project. Each microservice has its own docume
 
 ## Development Environment Setup
 1. Navigate to the folder you want to clone the Source Code into.
-2. Run `git clone https://github.com/philmard/solveme.git`[^1]
+2. Run `git clone https://github.com/philmard/solveme.git`
 3. a) Download nodejs from this website: https://nodejs.org/en/download
 
    b) Download Python from this website: https://www.python.org/downloads/
@@ -35,7 +35,6 @@ This is the general README for the project. Each microservice has its own docume
 11. Navigate to http://localhost:3000/
 12. You can now browse our application :)
 
-[^1]: The code was originally hosted at "https://github.com/ntua/saas2024-49," a private repository belonging to the National Technical University of Athens. Our instructor verbally granted us permission to clone the repository and upload it to our personal accounts.
 
 This is how it should look like:
 <img width="1000" alt="solveme1" src="https://github.com/user-attachments/assets/736a585e-833a-4f00-a46e-301d40db70e1" />
